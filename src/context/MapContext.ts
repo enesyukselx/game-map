@@ -1,13 +1,17 @@
 import { createContext } from "react";
 
 export interface IMapContext {
-  mainMapRef: React.RefObject<HTMLCanvasElement> | undefined;
-  miniMapRef: React.RefObject<HTMLCanvasElement> | undefined;
+    mainMap: CanvasRenderingContext2D | undefined;
+    miniMap: CanvasRenderingContext2D | undefined;
+    setMainMap: (el: CanvasRenderingContext2D) => void;
+    setMiniMap: (el: CanvasRenderingContext2D) => void;
 }
 
 const MapContext = createContext<IMapContext>({
-  mainMapRef: undefined,
-  miniMapRef: undefined,
+    mainMap: undefined,
+    miniMap: undefined,
+    setMainMap: () => {},
+    setMiniMap: () => {},
 });
 
 export default MapContext;
