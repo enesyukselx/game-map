@@ -1,17 +1,35 @@
 import { createContext } from "react";
 
 export interface IMapContext {
-    mainMap: CanvasRenderingContext2D | undefined;
-    miniMap: CanvasRenderingContext2D | undefined;
-    setMainMap: (el: CanvasRenderingContext2D) => void;
-    setMiniMap: (el: CanvasRenderingContext2D) => void;
+    coords: { x: number; y: number };
+    setCoords: (coords: { x: number; y: number }) => void;
+    mainMap: HTMLCanvasElement | undefined;
+    setMainMap: (el: HTMLCanvasElement) => void;
+    mainMapConfig: { size: { width: number; height: number }; scale: number };
+    setMainMapConfig: (config: {
+        size: { width: number; height: number };
+        scale: number;
+    }) => void;
+    miniMap: HTMLCanvasElement | undefined;
+    setMiniMap: (el: HTMLCanvasElement) => void;
+    miniMapConfig: { size: { width: number; height: number }; scale: number };
+    setMiniMapConfig: (config: {
+        size: { width: number; height: number };
+        scale: number;
+    }) => void;
 }
 
 const MapContext = createContext<IMapContext>({
+    coords: { x: 0, y: 0 },
+    setCoords: () => {},
     mainMap: undefined,
-    miniMap: undefined,
     setMainMap: () => {},
+    mainMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
+    setMainMapConfig: () => {},
+    miniMap: undefined,
     setMiniMap: () => {},
+    miniMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
+    setMiniMapConfig: () => {},
 });
 
 export default MapContext;

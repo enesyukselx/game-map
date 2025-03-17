@@ -8,14 +8,11 @@ const MainMap = () => {
 
     useEffect(() => {
         if (canvasRef.current) {
-            const context = canvasRef.current.getContext("2d");
-            if (context) {
-                setMainMap(context);
-            }
+            setMainMap(canvasRef.current);
         }
     }, [canvasRef, setMainMap]);
 
-    return <canvas ref={canvasRef} width={600} height={600}></canvas>;
+    return <canvas ref={canvasRef}></canvas>;
 };
 
 export default MainMap;

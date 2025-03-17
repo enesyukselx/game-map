@@ -8,14 +8,11 @@ const MiniMap = () => {
 
     useEffect(() => {
         if (canvasRef.current) {
-            const context = canvasRef.current.getContext("2d");
-            if (context) {
-                setMiniMap(context);
-            }
+            setMiniMap(canvasRef.current);
         }
     }, [canvasRef, setMiniMap]);
 
-    return <canvas ref={canvasRef} width={300} height={300}></canvas>;
+    return <canvas ref={canvasRef}></canvas>;
 };
 
 export default MiniMap;
