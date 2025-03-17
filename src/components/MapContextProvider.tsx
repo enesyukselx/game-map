@@ -5,12 +5,14 @@ import DATA from "../constants/data";
 const MAP_BACKGROUND_COLOR = "#7bdb86";
 const MAIN_MAP_SIZE = { width: 500, height: 500 };
 const MINI_MAP_SIZE = { width: 300, height: 300 };
+const VILLAGE_SIZE = 1;
+const SCALE_MULTIPLIER = VILLAGE_SIZE * 2;
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
     const [coords, setCoords] = useState<{ x: number; y: number }>({
-        x: 100,
-        y: 100,
+        x: 0,
+        y: 0,
     });
 
     const [mainMap, setMainMap] = useState<HTMLCanvasElement | undefined>(
@@ -20,11 +22,9 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [mainMapConfig, setMainMapConfig] = useState<{
         size: { width: number; height: number };
         scale: number;
-        villageSize: number;
     }>({
         size: MAIN_MAP_SIZE,
-        scale: 1,
-        villageSize: 40,
+        scale: 40,
     });
 
     const [mainMapCtx, setMainMapCtx] =
@@ -37,11 +37,9 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [miniMapConfig, setMiniMapConfig] = useState<{
         size: { width: number; height: number };
         scale: number;
-        villageSize: number;
     }>({
         size: MINI_MAP_SIZE,
-        scale: 10,
-        villageSize: 5,
+        scale: 5,
     });
 
     const [miniMapCtx, setMiniMapCtx] =
@@ -117,31 +115,66 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             miniMapConfig.size.height
         );
 
+        const visibleAreaWidth =
+            (mainMapConfig.size.width / mainMapConfig.scale) *
+            miniMapConfig.scale;
+        const visibleAreaHeight =
+            (mainMapConfig.size.height / mainMapConfig.scale) *
+            miniMapConfig.scale;
+
+        const miniMapCenterX =
+            miniMapConfig.size.width / 2 - visibleAreaWidth / 2;
+        const miniMapCenterY =
+            miniMapConfig.size.height / 2 - visibleAreaHeight / 2;
+
         DATA.forEach((village) => {
             miniMapCtx.fillStyle = "red";
             miniMapCtx.fillRect(
-                (village.coords.x - coords.x) * 10,
-                (village.coords.y - coords.y) * 10,
-                MINI_MAP_VILLAGE_SIZE,
-                MINI_MAP_VILLAGE_SIZE
+                (village.coords.x - coords.x) *
+                    miniMapConfig.scale *
+                    SCALE_MULTIPLIER +
+                    miniMapCenterX,
+                (village.coords.y - coords.y) *
+                    miniMapConfig.scale *
+                    SCALE_MULTIPLIER +
+                    miniMapCenterY,
+                VILLAGE_SIZE * miniMapConfig.scale,
+                VILLAGE_SIZE * miniMapConfig.scale
             );
         });
 
         DATA.forEach((village) => {
             mainMapCtx.fillStyle = "red";
             mainMapCtx.fillRect(
-                (village.coords.x - coords.x) * 100,
-                (village.coords.y - coords.y) * 100,
-                MAIN_MAP_VILLAGE_SIZE,
-                MAIN_MAP_VILLAGE_SIZE
+                (village.coords.x - coords.x) *
+                    mainMapConfig.scale *
+                    SCALE_MULTIPLIER,
+                (village.coords.y - coords.y) *
+                    mainMapConfig.scale *
+                    SCALE_MULTIPLIER,
+                VILLAGE_SIZE * mainMapConfig.scale,
+                VILLAGE_SIZE * mainMapConfig.scale
             );
         });
+
+        miniMapCtx.strokeStyle = "black";
+        miniMapCtx.lineWidth = 1;
+
+        // Draw viewport rectangle on mini map
+        miniMapCtx.strokeRect(
+            miniMapCenterX,
+            miniMapCenterY,
+            visibleAreaWidth,
+            visibleAreaHeight
+        );
     }, [
         coords,
         mainMapCtx,
         miniMapCtx,
         mainMapConfig.size,
         miniMapConfig.size,
+        mainMapConfig.scale,
+        miniMapConfig.scale,
     ]);
 
     return <MapContext.Provider value={values}>{children}</MapContext.Provider>;
