@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MapContext, { IMapContext } from "../context/MapContext";
 import DATA from "../constants/data";
+import { clearMap } from "../utils/clearMap";
 
 const MAP_BACKGROUND_COLOR = "#7bdb86";
 const MAIN_MAP_SIZE = { width: 500, height: 500 };
@@ -85,35 +86,19 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         if (!mainMapCtx || !miniMapCtx) return;
 
         // Clear previous drawings
-        mainMapCtx.clearRect(
-            0,
-            0,
-            mainMapConfig.size.width,
-            mainMapConfig.size.height
-        );
-        miniMapCtx.clearRect(
-            0,
-            0,
-            miniMapConfig.size.width,
-            miniMapConfig.size.height
-        );
+        clearMap({
+            ctx: mainMapCtx,
+            width: mainMapConfig.size.width,
+            height: mainMapConfig.size.height,
+            backgroundColor: MAP_BACKGROUND_COLOR,
+        });
 
-        // Redraw background
-        mainMapCtx.fillStyle = MAP_BACKGROUND_COLOR;
-        mainMapCtx.fillRect(
-            0,
-            0,
-            mainMapConfig.size.width,
-            mainMapConfig.size.height
-        );
-
-        miniMapCtx.fillStyle = MAP_BACKGROUND_COLOR;
-        miniMapCtx.fillRect(
-            0,
-            0,
-            miniMapConfig.size.width,
-            miniMapConfig.size.height
-        );
+        clearMap({
+            ctx: miniMapCtx,
+            width: miniMapConfig.size.width,
+            height: miniMapConfig.size.height,
+            backgroundColor: MAP_BACKGROUND_COLOR,
+        });
 
         const visibleAreaWidth =
             (mainMapConfig.size.width / mainMapConfig.scale) *
