@@ -1,7 +1,4 @@
-interface IVillage {
-    name: string;
-    coords: { x: number; y: number };
-}
+import { TVillage } from "../types";
 
 export const drawVillagesOnMap = ({
     ctx,
@@ -14,7 +11,7 @@ export const drawVillagesOnMap = ({
     villageSize,
 }: {
     ctx: CanvasRenderingContext2D;
-    villages: IVillage[];
+    villages: TVillage[];
     coords: { x: number; y: number };
     mapType: "MAIN" | "MINI";
     miniMapCenterCoords?: { x: number; y: number };
@@ -45,7 +42,14 @@ export const drawVillagesOnMap = ({
             return;
         }
 
-        ctx.fillStyle = "red";
+        let villageColor = "darkred";
+        if (village.type === "ally") {
+            villageColor = "blue";
+        } else if (village.type === "enemy") {
+            villageColor = "red";
+        }
+
+        ctx.fillStyle = villageColor;
         ctx.fillRect(vx, vy, vSize, vSize);
     });
 };

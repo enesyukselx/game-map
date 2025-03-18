@@ -1,34 +1,18 @@
-const DATA = [
-    {
-        name: "xxxx village",
-        coords: {
-            x: 0,
-            y: 0,
-        },
-    },
-    {
-        name: "xxxx village",
-        coords: {
-            x: 0,
-            y: 1,
-        },
-    },
-    {
-        name: "xxxx village",
-        coords: {
-            x: 1,
-            y: 1,
-        },
-    },
-];
+import { TVillage } from "../types";
+
+const DATA: TVillage[] = [];
 
 for (let i = 0; i < 30000; i++) {
+    const types = ["barbar", "enemy", "ally", "unknown"];
+    const randomType = types[Math.floor(Math.random() * types.length)];
+
     DATA.push({
         name: `xxxx village ${i}`,
         coords: {
             x: Math.floor(Math.random() * 200) + 1,
             y: Math.floor(Math.random() * 200) + 1,
         },
+        type: randomType as "barbar" | "enemy" | "ally" | "unknown",
     });
 }
 
