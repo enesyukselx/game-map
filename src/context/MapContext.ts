@@ -1,22 +1,20 @@
 import { createContext } from "react";
+import { TCoords, TMapConfig } from "../types";
 
 export interface IMapContext {
-    coords: { x: number; y: number };
-    setCoords: (coords: { x: number; y: number }) => void;
+    coords: TCoords;
+    setCoords: (coords: TCoords) => void;
     mainMap: HTMLCanvasElement | undefined;
     setMainMap: (el: HTMLCanvasElement) => void;
-    mainMapConfig: { size: { width: number; height: number }; scale: number };
-    setMainMapConfig: (config: {
-        size: { width: number; height: number };
-        scale: number;
-    }) => void;
+    mainMapConfig: TMapConfig;
+    setMainMapConfig: (config: TMapConfig) => void;
     miniMap: HTMLCanvasElement | undefined;
     setMiniMap: (el: HTMLCanvasElement) => void;
-    miniMapConfig: { size: { width: number; height: number }; scale: number };
-    setMiniMapConfig: (config: {
-        size: { width: number; height: number };
-        scale: number;
-    }) => void;
+    miniMapConfig: TMapConfig;
+    setMiniMapConfig: (config: TMapConfig) => void;
+    eventListeners: {
+        [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
+    };
 }
 
 const MapContext = createContext<IMapContext>({
@@ -30,6 +28,7 @@ const MapContext = createContext<IMapContext>({
     setMiniMap: () => {},
     miniMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
     setMiniMapConfig: () => {},
+    eventListeners: {},
 });
 
 export default MapContext;

@@ -3,6 +3,7 @@ import MapContext, { IMapContext } from "../context/MapContext";
 import DATA from "../constants/data";
 import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import { TCoords, TMapConfig } from "../types";
 
 const MAP_BACKGROUND_COLOR = "#7bdb86";
 const MAIN_MAP_SIZE = { width: 500, height: 500 };
@@ -12,7 +13,7 @@ const SCALE_MULTIPLIER = VILLAGE_SIZE * 2;
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
-    const [coords, setCoords] = useState<{ x: number; y: number }>({
+    const [coords, setCoords] = useState<TCoords>({
         x: 0,
         y: 0,
     });
@@ -21,10 +22,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         undefined
     );
 
-    const [mainMapConfig, setMainMapConfig] = useState<{
-        size: { width: number; height: number };
-        scale: number;
-    }>({
+    const [mainMapConfig, setMainMapConfig] = useState<TMapConfig>({
         size: MAIN_MAP_SIZE,
         scale: 40,
     });
@@ -36,10 +34,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         undefined
     );
 
-    const [miniMapConfig, setMiniMapConfig] = useState<{
-        size: { width: number; height: number };
-        scale: number;
-    }>({
+    const [miniMapConfig, setMiniMapConfig] = useState<TMapConfig>({
         size: MINI_MAP_SIZE,
         scale: 5,
     });
@@ -47,22 +42,55 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [miniMapCtx, setMiniMapCtx] =
         useState<CanvasRenderingContext2D | null>(null);
 
-    const values: IMapContext = {
-        coords,
-        setCoords,
-        mainMap,
-        setMainMap,
-        mainMapConfig,
-        setMainMapConfig: (config) => {
-            setMainMapConfig(config);
+    const [isDragging, setIsDragging] = useState(false);
+    const [mouseDownCoords, setMouseDownCoords] = useState<{
+        x: number;
+        y: number;
+    } | null>(null);
+
+    const eventListeners: {
+        [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
+    } = {
+        onmousedown: (e: MouseEvent) => {
+            setIsDragging(true);
+            setMouseDownCoords({ x: e.offsetX, y: e.offsetY });
         },
-        miniMap,
-        miniMapConfig,
-        setMiniMapConfig: (config) => {
-            setMiniMapConfig(config);
+        onmousemove: (e: MouseEvent, mapType: "MAIN" | "MINI" = "MAIN") => {
+            if (isDragging && mouseDownCoords) {
+                const deltaX = e.offsetX - mouseDownCoords.x;
+                const deltaY = e.offsetY - mouseDownCoords.y;
+
+                if (mapType === "MAIN") {
+                    setCoords((prevCoords) => ({
+                        x: prevCoords.x - deltaX / mainMapConfig.scale,
+                        y: prevCoords.y - deltaY / mainMapConfig.scale,
+                    }));
+                } else {
+                    setCoords((prevCoords) => ({
+                        x: prevCoords.x - deltaX / miniMapConfig.scale,
+                        y: prevCoords.y - deltaY / miniMapConfig.scale,
+                    }));
+                }
+
+                setMouseDownCoords({ x: e.offsetX, y: e.offsetY });
+            }
         },
-        setMiniMap,
+        onmouseup: () => {
+            setMouseDownCoords(null);
+            setIsDragging(false);
+        },
+        onmouseleave: () => {
+            setIsDragging(false);
+        },
     };
+
+    // Change cursor style based on dragging state
+    useEffect(() => {
+        if (!mainMap || !miniMap) return;
+        const cursorStyle = isDragging ? "move" : "default";
+        mainMap.style.cursor = cursorStyle;
+        miniMap.style.cursor = cursorStyle;
+    }, [mainMap, miniMap, isDragging]);
 
     useEffect(() => {
         //
@@ -148,6 +176,24 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             visibleAreaHeight
         );
     }, [coords, mainMapCtx, miniMapCtx, mainMapConfig, miniMapConfig]);
+
+    const values: IMapContext = {
+        coords,
+        setCoords,
+        mainMap,
+        setMainMap,
+        mainMapConfig,
+        setMainMapConfig: (config) => {
+            setMainMapConfig(config);
+        },
+        miniMap,
+        miniMapConfig,
+        setMiniMapConfig: (config) => {
+            setMiniMapConfig(config);
+        },
+        setMiniMap,
+        eventListeners,
+    };
 
     return <MapContext.Provider value={values}>{children}</MapContext.Provider>;
 };
