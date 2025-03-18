@@ -4,8 +4,7 @@ import useMap from "./hooks/useMap";
 
 function App() {
     //
-
-    const { coords } = useMap();
+    const { coords, setCoords } = useMap();
 
     return (
         <>
@@ -18,10 +17,30 @@ function App() {
                     <div className="mt-8">
                         <p className="text-2xl font-bold">Coordinates</p>
                         <p>
-                            X: <span className="font-bold">{coords.x}</span>
+                            X:
+                            <input
+                                type="number"
+                                value={coords.x}
+                                onChange={(e) =>
+                                    setCoords({
+                                        x: parseInt(e.target.value),
+                                        y: coords.y,
+                                    })
+                                }
+                            />
                         </p>
                         <p>
-                            Y: <span className="font-bold">{coords.y}</span>
+                            Y:
+                            <input
+                                type="number"
+                                value={coords.y}
+                                onChange={(e) =>
+                                    setCoords({
+                                        x: coords.x,
+                                        y: parseInt(e.target.value),
+                                    })
+                                }
+                            />
                         </p>
                     </div>
                 </div>
