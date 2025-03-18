@@ -54,13 +54,13 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     } | null>(null);
 
     const eventListeners: {
-        [key: string]: (e: MouseEvent) => void;
+        [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     } = {
         onmousedown: (e: MouseEvent) => {
             setIsDragging(true);
             setMouseDownCoords({ x: e.offsetX, y: e.offsetY });
         },
-        onmousemove: (e: MouseEvent, mapType: "MAIN" | "MINI") => {
+        onmousemove: (e: MouseEvent, mapType: "MAIN" | "MINI" = "MAIN") => {
             if (isDragging && mouseDownCoords) {
                 const deltaX = e.offsetX - mouseDownCoords.x;
                 const deltaY = e.offsetY - mouseDownCoords.y;

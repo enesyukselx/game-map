@@ -18,7 +18,7 @@ export interface IMapContext {
         scale: number;
     }) => void;
     eventListeners: {
-        [key: string]: (e: MouseEvent) => void;
+        [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     };
 }
 
