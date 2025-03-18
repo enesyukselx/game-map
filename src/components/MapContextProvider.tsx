@@ -3,6 +3,7 @@ import MapContext, { IMapContext } from "../context/MapContext";
 import DATA from "../constants/data";
 import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import { TCoords, TMapConfig } from "../types";
 
 const MAP_BACKGROUND_COLOR = "#7bdb86";
 const MAIN_MAP_SIZE = { width: 500, height: 500 };
@@ -12,7 +13,7 @@ const SCALE_MULTIPLIER = VILLAGE_SIZE * 2;
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
-    const [coords, setCoords] = useState<{ x: number; y: number }>({
+    const [coords, setCoords] = useState<TCoords>({
         x: 0,
         y: 0,
     });
@@ -21,10 +22,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         undefined
     );
 
-    const [mainMapConfig, setMainMapConfig] = useState<{
-        size: { width: number; height: number };
-        scale: number;
-    }>({
+    const [mainMapConfig, setMainMapConfig] = useState<TMapConfig>({
         size: MAIN_MAP_SIZE,
         scale: 40,
     });
@@ -36,10 +34,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         undefined
     );
 
-    const [miniMapConfig, setMiniMapConfig] = useState<{
-        size: { width: number; height: number };
-        scale: number;
-    }>({
+    const [miniMapConfig, setMiniMapConfig] = useState<TMapConfig>({
         size: MINI_MAP_SIZE,
         scale: 5,
     });
@@ -88,6 +83,14 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             setIsDragging(false);
         },
     };
+
+    // Change cursor style based on dragging state
+    useEffect(() => {
+        if (!mainMap || !miniMap) return;
+        const cursorStyle = isDragging ? "move" : "default";
+        mainMap.style.cursor = cursorStyle;
+        miniMap.style.cursor = cursorStyle;
+    }, [mainMap, miniMap, isDragging]);
 
     useEffect(() => {
         //
