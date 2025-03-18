@@ -63,6 +63,12 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         //
         if (!mainMap || !miniMap) return;
 
+        const observer = new ResizeObserver(function (mutations) {
+            console.log("mutations:", mutations);
+        });
+
+        observer.observe(mainMap.parentElement);
+
         mainMap.width = mainMapConfig.size.width;
         mainMap.height = mainMapConfig.size.height;
 
