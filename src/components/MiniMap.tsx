@@ -1,16 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useMapContext } from "../hook/useMap";
+import useCanvasSetup from "../hooks/useCanvasSetup";
 
 const MiniMap = () => {
     //
     const { setMiniMap, eventListeners } = useMapContext();
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect(() => {
-        if (canvasRef.current) {
-            setMiniMap(canvasRef.current);
-        }
-    }, [canvasRef, setMiniMap]);
+    useCanvasSetup(canvasRef, setMiniMap);
 
     return (
         <canvas
