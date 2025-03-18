@@ -1,11 +1,11 @@
 import MainMap from "./components/MainMap";
 import MiniMap from "./components/MiniMap";
-import { useMapContext } from "./hook/useMap";
+import useMap from "./hooks/useMap";
 
 function App() {
     //
 
-    const { coords } = useMapContext();
+    const { coords } = useMap();
 
     return (
         <>

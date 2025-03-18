@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import { useMapContext } from "../hook/useMap";
+import useMap from "../hooks/useMap";
 import useCanvasSetup from "../hooks/useCanvasSetup";
 
 const MainMap = () => {
     //
-    const { setMainMap, eventListeners } = useMapContext();
+    const { setMainMap, eventListeners } = useMap();
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useCanvasSetup(canvasRef, setMainMap);
