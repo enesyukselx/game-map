@@ -47,21 +47,46 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [miniMapCtx, setMiniMapCtx] =
         useState<CanvasRenderingContext2D | null>(null);
 
-    const values: IMapContext = {
-        coords,
-        setCoords,
-        mainMap,
-        setMainMap,
-        mainMapConfig,
-        setMainMapConfig: (config) => {
-            setMainMapConfig(config);
+    const [isDragging, setIsDragging] = useState(false);
+    const [mouseDownCoords, setMouseDownCoords] = useState<{
+        x: number;
+        y: number;
+    } | null>(null);
+
+    const eventListeners: {
+        [key: string]: (e: MouseEvent) => void;
+    } = {
+        onmousedown: (e: MouseEvent) => {
+            setIsDragging(true);
+            setMouseDownCoords({ x: e.offsetX, y: e.offsetY });
         },
-        miniMap,
-        miniMapConfig,
-        setMiniMapConfig: (config) => {
-            setMiniMapConfig(config);
+        onmousemove: (e: MouseEvent, mapType: "MAIN" | "MINI") => {
+            if (isDragging && mouseDownCoords) {
+                const deltaX = e.offsetX - mouseDownCoords.x;
+                const deltaY = e.offsetY - mouseDownCoords.y;
+
+                if (mapType === "MAIN") {
+                    setCoords((prevCoords) => ({
+                        x: prevCoords.x - deltaX / mainMapConfig.scale,
+                        y: prevCoords.y - deltaY / mainMapConfig.scale,
+                    }));
+                } else {
+                    setCoords((prevCoords) => ({
+                        x: prevCoords.x - deltaX / miniMapConfig.scale,
+                        y: prevCoords.y - deltaY / miniMapConfig.scale,
+                    }));
+                }
+
+                setMouseDownCoords({ x: e.offsetX, y: e.offsetY });
+            }
         },
-        setMiniMap,
+        onmouseup: () => {
+            setMouseDownCoords(null);
+            setIsDragging(false);
+        },
+        onmouseleave: () => {
+            setIsDragging(false);
+        },
     };
 
     useEffect(() => {
@@ -148,6 +173,24 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             visibleAreaHeight
         );
     }, [coords, mainMapCtx, miniMapCtx, mainMapConfig, miniMapConfig]);
+
+    const values: IMapContext = {
+        coords,
+        setCoords,
+        mainMap,
+        setMainMap,
+        mainMapConfig,
+        setMainMapConfig: (config) => {
+            setMainMapConfig(config);
+        },
+        miniMap,
+        miniMapConfig,
+        setMiniMapConfig: (config) => {
+            setMiniMapConfig(config);
+        },
+        setMiniMap,
+        eventListeners,
+    };
 
     return <MapContext.Provider value={values}>{children}</MapContext.Provider>;
 };

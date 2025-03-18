@@ -17,6 +17,9 @@ export interface IMapContext {
         size: { width: number; height: number };
         scale: number;
     }) => void;
+    eventListeners: {
+        [key: string]: (e: MouseEvent) => void;
+    };
 }
 
 const MapContext = createContext<IMapContext>({
@@ -30,6 +33,7 @@ const MapContext = createContext<IMapContext>({
     setMiniMap: () => {},
     miniMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
     setMiniMapConfig: () => {},
+    eventListeners: {},
 });
 
 export default MapContext;
