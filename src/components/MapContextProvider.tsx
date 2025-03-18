@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MapContext, { IMapContext } from "../context/MapContext";
 import DATA from "../constants/data";
 import { clearMap } from "../utils/clearMap";
+import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
 
 const MAP_BACKGROUND_COLOR = "#7bdb86";
 const MAIN_MAP_SIZE = { width: 500, height: 500 };
@@ -85,7 +86,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         if (!mainMapCtx || !miniMapCtx) return;
 
-        // Clear previous drawings
+        // Clear MainMap
         clearMap({
             ctx: mainMapCtx,
             width: mainMapConfig.size.width,
@@ -93,6 +94,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             backgroundColor: MAP_BACKGROUND_COLOR,
         });
 
+        // Clear MiniMap
         clearMap({
             ctx: miniMapCtx,
             width: miniMapConfig.size.width,
@@ -112,34 +114,27 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         const miniMapCenterY =
             miniMapConfig.size.height / 2 - visibleAreaHeight / 2;
 
-        DATA.forEach((village) => {
-            miniMapCtx.fillStyle = "red";
-            miniMapCtx.fillRect(
-                (village.coords.x - coords.x) *
-                    miniMapConfig.scale *
-                    SCALE_MULTIPLIER +
-                    miniMapCenterX,
-                (village.coords.y - coords.y) *
-                    miniMapConfig.scale *
-                    SCALE_MULTIPLIER +
-                    miniMapCenterY,
-                VILLAGE_SIZE * miniMapConfig.scale,
-                VILLAGE_SIZE * miniMapConfig.scale
-            );
+        // Draw villages on main map
+        drawVillagesOnMap({
+            ctx: mainMapCtx,
+            villages: DATA,
+            coords,
+            mapType: "MAIN",
+            mapConfig: mainMapConfig,
+            scaleMultiplier: SCALE_MULTIPLIER,
+            villageSize: VILLAGE_SIZE,
         });
 
-        DATA.forEach((village) => {
-            mainMapCtx.fillStyle = "red";
-            mainMapCtx.fillRect(
-                (village.coords.x - coords.x) *
-                    mainMapConfig.scale *
-                    SCALE_MULTIPLIER,
-                (village.coords.y - coords.y) *
-                    mainMapConfig.scale *
-                    SCALE_MULTIPLIER,
-                VILLAGE_SIZE * mainMapConfig.scale,
-                VILLAGE_SIZE * mainMapConfig.scale
-            );
+        // Draw villages on mini map
+        drawVillagesOnMap({
+            ctx: miniMapCtx,
+            villages: DATA,
+            coords,
+            mapType: "MINI",
+            miniMapCenterCoords: { x: miniMapCenterX, y: miniMapCenterY },
+            mapConfig: miniMapConfig,
+            scaleMultiplier: SCALE_MULTIPLIER,
+            villageSize: VILLAGE_SIZE,
         });
 
         miniMapCtx.strokeStyle = "black";
@@ -152,15 +147,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             visibleAreaWidth,
             visibleAreaHeight
         );
-    }, [
-        coords,
-        mainMapCtx,
-        miniMapCtx,
-        mainMapConfig.size,
-        miniMapConfig.size,
-        mainMapConfig.scale,
-        miniMapConfig.scale,
-    ]);
+    }, [coords, mainMapCtx, miniMapCtx, mainMapConfig, miniMapConfig]);
 
     return <MapContext.Provider value={values}>{children}</MapContext.Provider>;
 };
