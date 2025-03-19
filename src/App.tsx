@@ -8,7 +8,7 @@ function App() {
 
     return (
         <>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center py-4 gap-4">
                 <div>
                     <MainMap />
                 </div>

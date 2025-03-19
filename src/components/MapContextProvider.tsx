@@ -5,12 +5,11 @@ import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
 import { TCoords, TMapConfig } from "../types";
 import { useDragging } from "../hooks/useDragging";
-
-const MAP_BACKGROUND_COLOR = "#7bdb86";
-const MAIN_MAP_SIZE = { width: 500, height: 500 };
-const MINI_MAP_SIZE = { width: 300, height: 300 };
-const VILLAGE_SIZE = 1;
-const SCALE_MULTIPLIER = VILLAGE_SIZE * 2;
+import {
+    MAIN_MAP_SIZE,
+    MAP_BACKGROUND_COLOR,
+    MINI_MAP_SIZE,
+} from "../constants";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
@@ -116,8 +115,6 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             coords,
             mapType: "MAIN",
             mapConfig: mainMapConfig,
-            scaleMultiplier: SCALE_MULTIPLIER,
-            villageSize: VILLAGE_SIZE,
         });
 
         // Draw villages on mini map
@@ -128,8 +125,6 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             mapType: "MINI",
             miniMapCenterCoords: { x: miniMapCenterX, y: miniMapCenterY },
             mapConfig: miniMapConfig,
-            scaleMultiplier: SCALE_MULTIPLIER,
-            villageSize: VILLAGE_SIZE,
         });
 
         miniMapCtx.strokeStyle = "black";

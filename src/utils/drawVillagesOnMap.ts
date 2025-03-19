@@ -1,3 +1,4 @@
+import { SCALE_MULTIPLIER, VILLAGE_SIZE } from "../constants";
 import { TVillage } from "../types";
 
 export const drawVillagesOnMap = ({
@@ -7,8 +8,6 @@ export const drawVillagesOnMap = ({
     mapType,
     miniMapCenterCoords,
     mapConfig,
-    scaleMultiplier,
-    villageSize,
 }: {
     ctx: CanvasRenderingContext2D;
     villages: TVillage[];
@@ -16,17 +15,15 @@ export const drawVillagesOnMap = ({
     mapType: "MAIN" | "MINI";
     miniMapCenterCoords?: { x: number; y: number };
     mapConfig: { size: { width: number; height: number }; scale: number };
-    scaleMultiplier: number;
-    villageSize: number;
 }) => {
     //
     villages.forEach((village) => {
         //
         let vx =
-            (village.coords.x - coords.x) * mapConfig.scale * scaleMultiplier;
+            (village.coords.x - coords.x) * mapConfig.scale * SCALE_MULTIPLIER;
         let vy =
-            (village.coords.y - coords.y) * mapConfig.scale * scaleMultiplier;
-        const vSize = villageSize * mapConfig.scale;
+            (village.coords.y - coords.y) * mapConfig.scale * SCALE_MULTIPLIER;
+        const vSize = VILLAGE_SIZE * mapConfig.scale;
 
         if (mapType === "MINI" && miniMapCenterCoords) {
             vx = vx + miniMapCenterCoords.x;

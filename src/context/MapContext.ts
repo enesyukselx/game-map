@@ -7,11 +7,11 @@ export interface IMapContext {
     mainMap: HTMLCanvasElement | undefined;
     setMainMap: (el: HTMLCanvasElement) => void;
     mainMapConfig: TMapConfig;
-    setMainMapConfig: (config: TMapConfig) => void;
+    setMainMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
     miniMap: HTMLCanvasElement | undefined;
     setMiniMap: (el: HTMLCanvasElement) => void;
     miniMapConfig: TMapConfig;
-    setMiniMapConfig: (config: TMapConfig) => void;
+    setMiniMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
     eventListeners: {
         [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     };
