@@ -3,7 +3,7 @@ import useMap from "../hooks/useMap";
 import useCanvasSetup from "../hooks/useCanvasSetup";
 import useResize from "../hooks/useResize";
 import { MAIN_MAP_SIZE } from "../constants";
-import useWheel from "../hooks/useWhell";
+import useWheel from "../hooks/useWheel";
 
 const MainMap = () => {
     //
