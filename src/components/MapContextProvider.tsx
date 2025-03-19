@@ -9,8 +9,6 @@ import {
     MAIN_MAP_SIZE,
     MAP_BACKGROUND_COLOR,
     MINI_MAP_SIZE,
-    SCALE_MULTIPLIER,
-    VILLAGE_SIZE,
 } from "../constants";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -117,8 +115,6 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             coords,
             mapType: "MAIN",
             mapConfig: mainMapConfig,
-            scaleMultiplier: SCALE_MULTIPLIER,
-            villageSize: VILLAGE_SIZE,
         });
 
         // Draw villages on mini map
@@ -129,8 +125,6 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             mapType: "MINI",
             miniMapCenterCoords: { x: miniMapCenterX, y: miniMapCenterY },
             mapConfig: miniMapConfig,
-            scaleMultiplier: SCALE_MULTIPLIER,
-            villageSize: VILLAGE_SIZE,
         });
 
         miniMapCtx.strokeStyle = "black";
