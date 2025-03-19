@@ -5,12 +5,13 @@ import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
 import { TCoords, TMapConfig } from "../types";
 import { useDragging } from "../hooks/useDragging";
-
-const MAP_BACKGROUND_COLOR = "#7bdb86";
-const MAIN_MAP_SIZE = { width: 500, height: 500 };
-const MINI_MAP_SIZE = { width: 300, height: 300 };
-const VILLAGE_SIZE = 1;
-const SCALE_MULTIPLIER = VILLAGE_SIZE * 2;
+import {
+    MAIN_MAP_SIZE,
+    MAP_BACKGROUND_COLOR,
+    MINI_MAP_SIZE,
+    SCALE_MULTIPLIER,
+    VILLAGE_SIZE,
+} from "../constants";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
@@ -62,12 +63,6 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         //
         if (!mainMap || !miniMap) return;
-
-        const observer = new ResizeObserver(function (mutations) {
-            console.log("mutations:", mutations);
-        });
-
-        observer.observe(mainMap.parentElement);
 
         mainMap.width = mainMapConfig.size.width;
         mainMap.height = mainMapConfig.size.height;

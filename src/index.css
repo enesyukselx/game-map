@@ -9,6 +9,7 @@
 
 body {
     display: flex;
+    flex-wrap: auto;
     place-items: center;
     justify-content: center;
     min-width: 320px;
@@ -16,10 +17,8 @@ body {
 }
 
 .canvas-wrapper {
-    padding: 1rem;
-    background-color: rgb(133, 69, 69);
     resize: both;
-    overflow: auto;
+    overflow: hidden;
 }
 
 canvas.move {
