@@ -3,6 +3,7 @@ import useMap from "../hooks/useMap";
 import useCanvasSetup from "../hooks/useCanvasSetup";
 import useResize from "../hooks/useResize";
 import { MAIN_MAP_SIZE } from "../constants";
+import useWheel from "../hooks/useWhell";
 
 const MainMap = () => {
     //
@@ -12,6 +13,7 @@ const MainMap = () => {
 
     useCanvasSetup(canvasRef, setMainMap);
     useResize(wrapperRef, setMainMapConfig);
+    useWheel(canvasRef, setMainMapConfig);
 
     return (
         <div
