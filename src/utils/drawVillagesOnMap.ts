@@ -12,7 +12,7 @@ export const drawVillagesOnMap = ({
     ctx: CanvasRenderingContext2D;
     villages: TVillage[];
     coords: { x: number; y: number };
-    mapType: "MAIN" | "MINI";
+    mapType: "MAIN" | "MINI" | "POPUP";
     miniMapCenterCoords?: { x: number; y: number };
     mapConfig: { size: { width: number; height: number }; scale: number };
 }) => {

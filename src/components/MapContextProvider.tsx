@@ -11,6 +11,7 @@ import {
     MAIN_MAP_SIZE,
     MAP_BACKGROUND_COLOR,
     MINI_MAP_SIZE,
+    POPUP_MAP_SIZE,
 } from "../constants";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -44,6 +45,18 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [miniMapCtx, setMiniMapCtx] =
         useState<CanvasRenderingContext2D | null>(null);
 
+    const [popupMap, setPopupMap] = useState<HTMLCanvasElement | undefined>(
+        undefined
+    );
+
+    const [popupMapConfig, setPopupMapConfig] = useState<TMapConfig>({
+        size: POPUP_MAP_SIZE,
+        scale: 0.8,
+    });
+
+    const [popupMapCtx, setPopupMapCtx] =
+        useState<CanvasRenderingContext2D | null>(null);
+
     // dragging event listeners with useDragging hook
     const { isDragging, eventListeners } = useDragging({
         setCoords,
@@ -68,7 +81,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         //
-        if (!mainMap || !miniMap) return;
+        if (!mainMap || !miniMap || !popupMap) return;
 
         mainMap.width = mainMapConfig.size.width;
         mainMap.height = mainMapConfig.size.height;
@@ -76,17 +89,29 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         miniMap.width = miniMapConfig.size.width;
         miniMap.height = miniMapConfig.size.height;
 
+        popupMap.width = popupMapConfig.size.width;
+        popupMap.height = popupMapConfig.size.height;
+
         const mainMapCtx = mainMap.getContext("2d");
         const miniMapCtx = miniMap.getContext("2d");
+        const popupMapCtx = popupMap.getContext("2d");
 
-        if (!mainMapCtx || !miniMapCtx) return;
+        if (!mainMapCtx || !miniMapCtx || !popupMapCtx) return;
 
         setMainMapCtx(mainMapCtx);
         setMiniMapCtx(miniMapCtx);
-    }, [miniMap, mainMap, mainMapConfig.size, miniMapConfig.size]);
+        setPopupMapCtx(popupMapCtx);
+    }, [
+        miniMap,
+        mainMap,
+        popupMap,
+        mainMapConfig.size,
+        miniMapConfig.size,
+        popupMapConfig.size,
+    ]);
 
     useEffect(() => {
-        if (!mainMapCtx || !miniMapCtx) return;
+        if (!mainMapCtx || !miniMapCtx || !popupMapCtx) return;
 
         // Clear MainMap
         clearMap({
@@ -101,6 +126,14 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             ctx: miniMapCtx,
             width: miniMapConfig.size.width,
             height: miniMapConfig.size.height,
+            backgroundColor: MAP_BACKGROUND_COLOR,
+        });
+
+        // Clear PopupMap
+        clearMap({
+            ctx: popupMapCtx,
+            width: popupMapConfig.size.width,
+            height: popupMapConfig.size.height,
             backgroundColor: MAP_BACKGROUND_COLOR,
         });
 
@@ -141,6 +174,14 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             mapConfig: miniMapConfig,
         });
 
+        drawVillagesOnMap({
+            ctx: popupMapCtx,
+            villages: DATA,
+            coords: { x: 0, y: 0 },
+            mapType: "POPUP",
+            mapConfig: popupMapConfig,
+        });
+
         miniMapCtx.strokeStyle = "black";
         miniMapCtx.lineWidth = 1;
 
@@ -151,7 +192,15 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             visibleAreaWidth,
             visibleAreaHeight
         );
-    }, [coords, mainMapCtx, miniMapCtx, mainMapConfig, miniMapConfig]);
+    }, [
+        coords,
+        mainMapCtx,
+        miniMapCtx,
+        popupMapCtx,
+        mainMapConfig,
+        miniMapConfig,
+        popupMapConfig,
+    ]);
 
     const values: IMapContext = {
         coords,
@@ -168,6 +217,10 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             setMiniMapConfig(config);
         },
         setMiniMap,
+        popupMap,
+        setPopupMap,
+        popupMapConfig,
+        setPopupMapConfig,
         eventListeners,
         touchEventListeners,
     };

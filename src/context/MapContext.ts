@@ -12,6 +12,10 @@ export interface IMapContext {
     setMiniMap: (el: HTMLCanvasElement) => void;
     miniMapConfig: TMapConfig;
     setMiniMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
+    popupMap: HTMLCanvasElement | undefined;
+    setPopupMap: (el: HTMLCanvasElement) => void;
+    popupMapConfig: TMapConfig;
+    setPopupMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
     eventListeners: {
         [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     };
@@ -31,6 +35,10 @@ const MapContext = createContext<IMapContext>({
     setMiniMap: () => {},
     miniMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
     setMiniMapConfig: () => {},
+    popupMap: undefined,
+    setPopupMap: () => {},
+    popupMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
+    setPopupMapConfig: () => {},
     eventListeners: {},
     touchEventListeners: {},
 });

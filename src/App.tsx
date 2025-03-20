@@ -1,10 +1,13 @@
+import { useState } from "react";
 import MainMap from "./components/MainMap";
 import MiniMap from "./components/MiniMap";
+import PopupMap from "./components/PopupMap";
 import useMap from "./hooks/useMap";
 
 function App() {
     //
     const { coords, setCoords } = useMap();
+    const [isPopupMapVisible, setIsPopupMapVisible] = useState(false);
 
     return (
         <>
@@ -44,6 +47,22 @@ function App() {
                         </p>
                     </div>
                 </div>
+            </div>
+            <div
+                className="fixed bottom-4 right-4"
+                onClick={() => setIsPopupMapVisible(!isPopupMapVisible)}
+            >
+                <button className="p-2 bg-blue-500 text-white rounded-md cursor-pointer">
+                    {isPopupMapVisible ? "Close" : "Open"} Popup Map
+                </button>
+            </div>
+            <div
+                className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.7)] flex items-center justify-center ${
+                    isPopupMapVisible ? "" : "hidden"
+                }`}
+                onClick={() => setIsPopupMapVisible(false)}
+            >
+                <PopupMap />
             </div>
         </>
     );
