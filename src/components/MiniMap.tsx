@@ -37,7 +37,7 @@ const MiniMap = () => {
                     eventListeners["onmousedown"](e.nativeEvent)
                 }
                 onMouseMove={(e) =>
-                    eventListeners["onmousemove"](e.nativeEvent, "MAIN")
+                    eventListeners["onmousemove"](e.nativeEvent, "MINI")
                 }
                 onMouseUp={(e) => eventListeners["onmouseup"](e.nativeEvent)}
                 onMouseLeave={(e) =>
