@@ -12,7 +12,6 @@ const useWheel = (
 
         const handleWheel = (e: WheelEvent) => {
             e.preventDefault();
-            console.log(e);
             // You can also call your zoom/pan logic here
             setMapConfig((prev: TMapConfig) => {
                 return {
