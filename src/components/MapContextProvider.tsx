@@ -5,6 +5,7 @@ import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
 import { TCoords, TMapConfig } from "../types";
 import { useDragging } from "../hooks/useDragging";
+import { useTouch } from "../hooks/useTouch";
 import {
     MAIN_MAP_SIZE,
     MAP_BACKGROUND_COLOR,
@@ -44,6 +45,12 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     // dragging event listeners with useDragging hook
     const { isDragging, eventListeners } = useDragging({
+        setCoords,
+        mainMapConfig,
+        miniMapConfig,
+    });
+
+    const { eventListeners: touchEventListeners } = useTouch({
         setCoords,
         mainMapConfig,
         miniMapConfig,
@@ -155,6 +162,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         },
         setMiniMap,
         eventListeners,
+        touchEventListeners,
     };
 
     return <MapContext.Provider value={values}>{children}</MapContext.Provider>;

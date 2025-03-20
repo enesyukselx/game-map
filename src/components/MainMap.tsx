@@ -7,7 +7,12 @@ import useWheel from "../hooks/useWheel";
 
 const MainMap = () => {
     //
-    const { setMainMap, setMainMapConfig, eventListeners } = useMap();
+    const {
+        setMainMap,
+        setMainMapConfig,
+        eventListeners,
+        touchEventListeners,
+    } = useMap();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -24,10 +29,12 @@ const MainMap = () => {
                 minHeight: "250px",
                 width: MAIN_MAP_SIZE.width,
                 height: MAIN_MAP_SIZE.height,
+                touchAction: "none",
             }}
         >
             <canvas
                 ref={canvasRef}
+                // Mouse Events
                 onMouseDown={(e) =>
                     eventListeners["onmousedown"](e.nativeEvent)
                 }
@@ -37,6 +44,19 @@ const MainMap = () => {
                 onMouseUp={(e) => eventListeners["onmouseup"](e.nativeEvent)}
                 onMouseLeave={(e) =>
                     eventListeners["onmouseleave"](e.nativeEvent)
+                }
+                // Touch Events
+                onTouchStart={(e) =>
+                    touchEventListeners["ontouchstart"](e.nativeEvent)
+                }
+                onTouchMove={(e) =>
+                    touchEventListeners["ontouchmove"](e.nativeEvent, "MAIN")
+                }
+                onTouchEnd={(e) =>
+                    touchEventListeners["ontouchend"](e.nativeEvent)
+                }
+                onTouchCancel={(e) =>
+                    touchEventListeners["ontouchcancel"](e.nativeEvent)
                 }
             ></canvas>
         </div>
