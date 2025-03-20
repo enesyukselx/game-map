@@ -38,11 +38,9 @@ export const drawVillagesOnMap = ({
         }
 
         let villageColor = "darkred";
-        if (village.type === "ally") {
-            villageColor = "blue";
-        } else if (village.type === "enemy") {
-            villageColor = "red";
-        }
+        if (village.type === "ally") villageColor = "blue";
+        if (village.type === "enemy") villageColor = "red";
+        if (village.type === "barbar") villageColor = "gray";
 
         ctx.fillStyle = villageColor;
         ctx.fillRect(vx, vy, vSize, vSize);

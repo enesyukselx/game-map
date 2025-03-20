@@ -3,19 +3,30 @@ import useMap from "../hooks/useMap";
 import useResize from "../hooks/useResize";
 import { MAIN_MAP_SIZE } from "../constants";
 import useWheel from "../hooks/useWheel";
+import useVillageHover from "../hooks/useVillageHover";
+import VillageDetailsPopup from "./VillageDetailsPopup";
+import DATA from "../constants/data";
 
 const MainMap = () => {
-    //
     const {
         mainMapRef,
+        mainMapConfig,
         setMainMapConfig,
         eventListeners,
         touchEventListeners,
+        coords,
     } = useMap();
     const wrapperRef = useRef<HTMLDivElement>(null);
-
     useResize(wrapperRef, setMainMapConfig);
     useWheel(mainMapRef, setMainMapConfig);
+
+    // Use the village hover hook
+    const { hoveredVillage, hoverPosition } = useVillageHover(
+        mainMapRef,
+        DATA,
+        coords,
+        mainMapConfig
+    );
 
     return (
         <div
@@ -27,6 +38,7 @@ const MainMap = () => {
                 width: MAIN_MAP_SIZE.width,
                 height: MAIN_MAP_SIZE.height,
                 touchAction: "none",
+                position: "relative",
             }}
         >
             <canvas
@@ -56,6 +68,13 @@ const MainMap = () => {
                     touchEventListeners["ontouchcancel"](e.nativeEvent)
                 }
             ></canvas>
+
+            {hoveredVillage && hoverPosition && (
+                <VillageDetailsPopup
+                    village={hoveredVillage}
+                    position={hoverPosition}
+                />
+            )}
         </div>
     );
 };

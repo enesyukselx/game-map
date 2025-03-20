@@ -83,6 +83,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         mainMapRef,
         miniMapRef,
         popupMapRef,
+        mainMapConfig,
         setMainMapConfig,
         setMiniMapConfig,
         eventListeners,
