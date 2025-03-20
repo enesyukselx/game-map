@@ -16,3 +16,5 @@ export type TVillage = {
     coords: TCoords;
     type: "barbar" | "enemy" | "ally" | "unknown";
 };
+
+export type TMapType = "MAIN" | "MINI" | "POPUP";
