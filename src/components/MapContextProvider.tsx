@@ -86,6 +86,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         mainMapConfig,
         setMainMapConfig,
         setMiniMapConfig,
+        isDragging,
         eventListeners,
         touchEventListeners,
     };

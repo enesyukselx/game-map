@@ -12,6 +12,7 @@ const MainMap = () => {
         mainMapRef,
         mainMapConfig,
         setMainMapConfig,
+        isDragging,
         eventListeners,
         touchEventListeners,
         coords,
@@ -23,6 +24,7 @@ const MainMap = () => {
     // Use the village hover hook
     const { hoveredVillage, hoverPosition } = useVillageHover(
         mainMapRef,
+        isDragging,
         DATA,
         coords,
         mainMapConfig

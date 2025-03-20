@@ -10,6 +10,7 @@ export interface IMapContext {
     mainMapConfig: TMapConfig;
     setMainMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
     setMiniMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
+    isDragging: boolean;
     eventListeners: {
         [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     };
@@ -30,6 +31,7 @@ const MapContext = createContext<IMapContext>({
     },
     setMainMapConfig: () => {},
     setMiniMapConfig: () => {},
+    isDragging: false,
     eventListeners: {},
     touchEventListeners: {},
 });
