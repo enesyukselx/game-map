@@ -18,7 +18,7 @@ const useWheel = (
                 return {
                     ...prev,
                     scale: Math.min(
-                        40,
+                        100,
                         Math.max(1, prev.scale - e.deltaY / 100)
                     ),
                 };

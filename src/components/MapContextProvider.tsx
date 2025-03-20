@@ -3,6 +3,7 @@ import MapContext, { IMapContext } from "../context/MapContext";
 import DATA from "../constants/data";
 import { clearMap } from "../utils/clearMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import { drawCoordsOnMap } from "../utils/drawCoordsOnMap";
 import { TCoords, TMapConfig } from "../types";
 import { useDragging } from "../hooks/useDragging";
 import { useTouch } from "../hooks/useTouch";
@@ -25,7 +26,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [mainMapConfig, setMainMapConfig] = useState<TMapConfig>({
         size: MAIN_MAP_SIZE,
-        scale: 40,
+        scale: 50,
     });
 
     const [mainMapCtx, setMainMapCtx] =
@@ -121,6 +122,12 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
             villages: DATA,
             coords,
             mapType: "MAIN",
+            mapConfig: mainMapConfig,
+        });
+
+        drawCoordsOnMap({
+            ctx: mainMapCtx,
+            coords,
             mapConfig: mainMapConfig,
         });
 

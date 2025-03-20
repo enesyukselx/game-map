@@ -1,4 +1,4 @@
-import { SCALE_MULTIPLIER, VILLAGE_SIZE } from "../constants";
+import { VILLAGE_SIZE } from "../constants";
 import { TVillage } from "../types";
 
 export const drawVillagesOnMap = ({
@@ -19,10 +19,8 @@ export const drawVillagesOnMap = ({
     //
     villages.forEach((village) => {
         //
-        let vx =
-            (village.coords.x - coords.x) * mapConfig.scale * SCALE_MULTIPLIER;
-        let vy =
-            (village.coords.y - coords.y) * mapConfig.scale * SCALE_MULTIPLIER;
+        let vx = (village.coords.x - coords.x) * mapConfig.scale;
+        let vy = (village.coords.y - coords.y) * mapConfig.scale;
         const vSize = VILLAGE_SIZE * mapConfig.scale;
 
         if (mapType === "MINI" && miniMapCenterCoords) {
