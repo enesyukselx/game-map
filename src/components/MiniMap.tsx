@@ -1,21 +1,18 @@
 import { useRef } from "react";
 import useMap from "../hooks/useMap";
-import useCanvasSetup from "../hooks/useCanvasSetup";
 import useResize from "../hooks/useResize";
 import { MINI_MAP_SIZE } from "../constants";
 
 const MiniMap = () => {
     //
     const {
-        setMiniMap,
+        miniMapRef,
         setMiniMapConfig,
         eventListeners,
         touchEventListeners,
     } = useMap();
-    const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
-    useCanvasSetup(canvasRef, setMiniMap);
     useResize(wrapperRef, setMiniMapConfig);
 
     return (
@@ -31,7 +28,7 @@ const MiniMap = () => {
             }}
         >
             <canvas
-                ref={canvasRef}
+                ref={miniMapRef}
                 // Mouse Events
                 onMouseDown={(e) =>
                     eventListeners["onmousedown"](e.nativeEvent)

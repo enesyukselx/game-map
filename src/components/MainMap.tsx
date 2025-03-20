@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import useMap from "../hooks/useMap";
-import useCanvasSetup from "../hooks/useCanvasSetup";
 import useResize from "../hooks/useResize";
 import { MAIN_MAP_SIZE } from "../constants";
 import useWheel from "../hooks/useWheel";
@@ -8,17 +7,15 @@ import useWheel from "../hooks/useWheel";
 const MainMap = () => {
     //
     const {
-        setMainMap,
+        mainMapRef,
         setMainMapConfig,
         eventListeners,
         touchEventListeners,
     } = useMap();
-    const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
-    useCanvasSetup(canvasRef, setMainMap);
     useResize(wrapperRef, setMainMapConfig);
-    useWheel(canvasRef, setMainMapConfig);
+    useWheel(mainMapRef, setMainMapConfig);
 
     return (
         <div
@@ -33,7 +30,7 @@ const MainMap = () => {
             }}
         >
             <canvas
-                ref={canvasRef}
+                ref={mainMapRef}
                 // Mouse Events
                 onMouseDown={(e) =>
                     eventListeners["onmousedown"](e.nativeEvent)

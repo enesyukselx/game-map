@@ -1,21 +1,14 @@
-import { createContext } from "react";
+import { createContext, createRef } from "react";
 import { TCoords, TMapConfig } from "../types";
 
 export interface IMapContext {
     coords: TCoords;
     setCoords: (coords: TCoords) => void;
-    mainMap: HTMLCanvasElement | undefined;
-    setMainMap: (el: HTMLCanvasElement) => void;
-    mainMapConfig: TMapConfig;
+    mainMapRef: React.RefObject<HTMLCanvasElement | null>;
+    miniMapRef: React.RefObject<HTMLCanvasElement | null>;
+    popupMapRef: React.RefObject<HTMLCanvasElement | null>;
     setMainMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
-    miniMap: HTMLCanvasElement | undefined;
-    setMiniMap: (el: HTMLCanvasElement) => void;
-    miniMapConfig: TMapConfig;
     setMiniMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
-    popupMap: HTMLCanvasElement | undefined;
-    setPopupMap: (el: HTMLCanvasElement) => void;
-    popupMapConfig: TMapConfig;
-    setPopupMapConfig: React.Dispatch<React.SetStateAction<TMapConfig>>;
     eventListeners: {
         [key: string]: (e: MouseEvent, mapType?: "MAIN" | "MINI") => void;
     };
@@ -27,18 +20,11 @@ export interface IMapContext {
 const MapContext = createContext<IMapContext>({
     coords: { x: 0, y: 0 },
     setCoords: () => {},
-    mainMap: undefined,
-    setMainMap: () => {},
-    mainMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
+    mainMapRef: createRef<HTMLCanvasElement>(),
+    miniMapRef: createRef<HTMLCanvasElement>(),
+    popupMapRef: createRef<HTMLCanvasElement>(),
     setMainMapConfig: () => {},
-    miniMap: undefined,
-    setMiniMap: () => {},
-    miniMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
     setMiniMapConfig: () => {},
-    popupMap: undefined,
-    setPopupMap: () => {},
-    popupMapConfig: { size: { width: 0, height: 0 }, scale: 1 },
-    setPopupMapConfig: () => {},
     eventListeners: {},
     touchEventListeners: {},
 });

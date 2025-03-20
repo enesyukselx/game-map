@@ -1,15 +1,10 @@
-import { useRef } from "react";
-import useCanvasSetup from "../hooks/useCanvasSetup";
 import useMap from "../hooks/useMap";
 
 const PopupMap = () => {
     //
-    const { setPopupMap } = useMap();
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const { popupMapRef } = useMap();
 
-    useCanvasSetup(canvasRef, setPopupMap);
-
-    return <canvas ref={canvasRef}></canvas>;
+    return <canvas ref={popupMapRef}></canvas>;
 };
 
 export default PopupMap;
