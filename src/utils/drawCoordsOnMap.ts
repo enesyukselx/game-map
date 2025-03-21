@@ -32,7 +32,7 @@ export const drawCoordsOnMap = ({
         const visibleAreaHeightInCords = mapConfig.size.height / cordGap;
 
         for (
-            let i = coords.y - cordGap;
+            let i = 0 - (coords.y % 1);
             i <= visibleAreaHeightInCords + 1;
             i++
         ) {
@@ -44,7 +44,7 @@ export const drawCoordsOnMap = ({
         }
 
         for (
-            let i = coords.x - cordGap;
+            let i = 0 - (coords.x % 1);
             i <= visibleAreaWidthInCords + 1;
             i++
         ) {
