@@ -17,10 +17,10 @@ export const drawCoordsOnMap = ({
         ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
 
         // Draw left border - 30px wide, full height
-        ctx.fillRect(0, 0, 30, mapConfig.size.height);
+        ctx.fillRect(0, 0, 20, mapConfig.size.height);
 
         // Draw bottom border - full width, 30px high
-        ctx.fillRect(30, mapConfig.size.height - 20, mapConfig.size.width, 30);
+        ctx.fillRect(20, mapConfig.size.height - 20, mapConfig.size.width, 30);
 
         // Set text properties for coordinates
         ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
@@ -31,15 +31,23 @@ export const drawCoordsOnMap = ({
         const visibleAreaWidthInCords = mapConfig.size.width / cordGap;
         const visibleAreaHeightInCords = mapConfig.size.height / cordGap;
 
-        for (let i = 0; i <= visibleAreaHeightInCords + 1; i++) {
+        for (
+            let i = coords.y - cordGap;
+            i <= visibleAreaHeightInCords + 1;
+            i++
+        ) {
             ctx.fillText(
                 Math.round(coords.y + i - 1).toString(),
-                15,
+                10,
                 cordGap * i - cordGap / 2
             );
         }
 
-        for (let i = 0; i <= visibleAreaWidthInCords + 1; i++) {
+        for (
+            let i = coords.x - cordGap;
+            i <= visibleAreaWidthInCords + 1;
+            i++
+        ) {
             ctx.fillText(
                 Math.round(coords.x + i - 1).toString(),
                 cordGap * i - cordGap / 2,
