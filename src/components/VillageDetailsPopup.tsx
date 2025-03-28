@@ -25,6 +25,7 @@ const VillageDetailsPopup: React.FC<VillageDetailsPopupProps> = ({
                 Coordinates: ({village.coords.x},{village.coords.y})
             </p>
             <p>Type: {village.type}</p>
+            <p>Points: {village.point}</p>
         </div>
     );
 };

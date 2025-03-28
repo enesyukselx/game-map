@@ -15,6 +15,12 @@ export type TVillage = {
     name: string;
     coords: TCoords;
     type: "barbar" | "enemy" | "ally" | "unknown";
+    point: number;
+};
+
+export type TTerrain = {
+    coords: TCoords;
+    type: "lake" | "mine" | "forest";
 };
 
 export type TMapType = "MAIN" | "MINI" | "POPUP";
