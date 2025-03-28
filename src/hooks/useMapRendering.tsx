@@ -93,7 +93,7 @@ const useMapRendering = (
                 mapConfig,
             });
         }
-    }, [coords, ctx, mapConfig, mapType, villages, visibleAreas]);
+    }, [coords, ctx, mapConfig, mapType, villages, terrains, visibleAreas]);
 };
 
 export default useMapRendering;

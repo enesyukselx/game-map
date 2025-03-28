@@ -16,8 +16,8 @@ export const drawTerrainsOnMap = ({
     //
     terrains.forEach((terrain) => {
         //
-        let vx = (terrain.coords.x - coords.x) * mapConfig.scale;
-        let vy = (terrain.coords.y - coords.y) * mapConfig.scale;
+        const vx = (terrain.coords.x - coords.x) * mapConfig.scale;
+        const vy = (terrain.coords.y - coords.y) * mapConfig.scale;
         const vSize = VILLAGE_SIZE * mapConfig.scale;
 
         if (
@@ -29,7 +29,7 @@ export const drawTerrainsOnMap = ({
             return;
         }
 
-        let terrainImage = terrainImages[terrain.type];
+        const terrainImage = terrainImages[terrain.type];
 
         ctx.drawImage(terrainImage, vx, vy, vSize, vSize);
     });
