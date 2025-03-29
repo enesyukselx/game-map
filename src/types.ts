@@ -14,7 +14,7 @@ export type TCoords = {
 export type TVillage = {
     name: string;
     coords: TCoords;
-    type: "barbar" | "enemy" | "ally" | "unknown";
+    type: TVillageTypes;
     point: number;
 };
 
@@ -23,4 +23,5 @@ export type TTerrain = {
     type: "lake" | "mine" | "forest";
 };
 
+export type TVillageTypes = "barbar" | "enemy" | "ally" | "unknown";
 export type TMapType = "MAIN" | "MINI" | "POPUP";
