@@ -18,7 +18,7 @@ const useWheel = (
                     ...prev,
                     scale: Math.min(
                         100,
-                        Math.max(5, prev.scale - e.deltaY / 100)
+                        Math.max(50, prev.scale - e.deltaY / 100)
                     ),
                 };
             });

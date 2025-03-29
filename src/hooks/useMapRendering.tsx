@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { MAP_BACKGROUND_COLOR } from "../constants";
-import { TCoords, TMapConfig, TMapType, TVillage } from "../types";
+import { TCoords, TMapConfig, TMapType, TTerrain, TVillage } from "../types";
 import { clearMap } from "../utils/clearMap";
 import { drawCoordsOnMap } from "../utils/drawCoordsOnMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import { drawVillagesOnMapWithImage } from "../utils/drawVillagesOnMapWithImage";
+import { drawTerrainsOnMap } from "../utils/drawTerrainsOnMap";
 
 const useMapRendering = (
     ctx: CanvasRenderingContext2D | null,
     mapConfig: TMapConfig,
     mapType: TMapType,
     villages: TVillage[],
+    terrains: TTerrain[],
     coords: TCoords,
     visibleAreas?: {
         width: number;
@@ -30,11 +33,19 @@ const useMapRendering = (
 
         if (mapType === "MAIN") {
             // Draw villages on main map
-            drawVillagesOnMap({
+            drawVillagesOnMapWithImage({
                 ctx: ctx,
                 villages,
                 coords,
                 mapType: "MAIN",
+                mapConfig,
+            });
+
+            // Draw terrains on main map
+            drawTerrainsOnMap({
+                ctx: ctx,
+                terrains,
+                coords,
                 mapConfig,
             });
 
@@ -82,7 +93,7 @@ const useMapRendering = (
                 mapConfig,
             });
         }
-    }, [coords, ctx, mapConfig, mapType, villages, visibleAreas]);
+    }, [coords, ctx, mapConfig, mapType, villages, terrains, visibleAreas]);
 };
 
 export default useMapRendering;

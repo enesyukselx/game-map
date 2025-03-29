@@ -1,8 +1,10 @@
+import villageImages from "../data/villageImages";
 import villageTypeColors from "../data/villageTypeColors";
 import { TVillage } from "../types";
 import { calculateScreenPosition } from "./calculateScreenPosition";
+import getVillageLevel from "./getVillageLevel";
 
-export const drawVillagesOnMap = ({
+export const drawVillagesOnMapWithImage = ({
     ctx,
     villages,
     coords,
@@ -20,7 +22,6 @@ export const drawVillagesOnMap = ({
     //
     villages.forEach((village) => {
         //
-
         const {
             x,
             y,
@@ -48,7 +49,21 @@ export const drawVillagesOnMap = ({
             return;
         }
 
+        let villageImage;
+        const villageLevel = getVillageLevel(village.point);
+        if (village.type === "barbar") {
+            villageImage = villageImages[villageLevel][1];
+        } else {
+            villageImage = villageImages[villageLevel][0];
+        }
+
+        // Draw the village image
+        ctx.drawImage(villageImage, vx, vy, vSize, vSize);
+        // Draw the village circle for the type
+        if (village.type === "barbar") return; // Barbarian villages are not colored
         ctx.fillStyle = villageTypeColors[village.type];
-        ctx.fillRect(vx, vy, vSize, vSize);
+        ctx.beginPath();
+        ctx.arc(vx + 5, vy + 5, 0.04 * mapConfig.scale, 0, Math.PI * 2);
+        ctx.fill();
     });
 };

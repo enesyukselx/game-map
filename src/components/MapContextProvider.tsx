@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import MapContext, { IMapContext } from "../context/MapContext";
-import DATA from "../constants/data";
 import { TCoords } from "../types";
 import useCanvasSetup from "../hooks/useCanvasSetup";
 import useMapRendering from "../hooks/useMapRendering";
 import { useDragging } from "../hooks/useDragging";
 import { useTouch } from "../hooks/useTouch";
 import { MAIN_MAP_SIZE, MINI_MAP_SIZE, POPUP_MAP_SIZE } from "../constants";
+import { TERRAINS, VILLAGES } from "../data/mapObjects";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
     //
@@ -24,7 +24,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         mapConfig: mainMapConfig,
         mapCtx: mainMapCtx,
         setMapConfig: setMainMapConfig,
-    } = useCanvasSetup(mainMapRef, { size: MAIN_MAP_SIZE, scale: 50 });
+    } = useCanvasSetup(mainMapRef, { size: MAIN_MAP_SIZE, scale: 100 });
 
     const {
         map: miniMap,
@@ -35,7 +35,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const { mapConfig: popupMapConfig, mapCtx: popupMapCtx } = useCanvasSetup(
         popupMapRef,
-        { size: POPUP_MAP_SIZE, scale: 0.8 }
+        { size: POPUP_MAP_SIZE, scale: 3 }
     );
 
     // dragging event listeners with useDragging hook
@@ -67,12 +67,27 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         (mainMapConfig.size.height / mainMapConfig.scale) * miniMapConfig.scale;
 
     // Render maps
-    useMapRendering(mainMapCtx, mainMapConfig, "MAIN", DATA, coords);
-    useMapRendering(miniMapCtx, miniMapConfig, "MINI", DATA, coords, {
-        width: visibleAreaWidth,
-        height: visibleAreaHeight,
-    });
-    useMapRendering(popupMapCtx, popupMapConfig, "POPUP", DATA, {
+    useMapRendering(
+        mainMapCtx,
+        mainMapConfig,
+        "MAIN",
+        VILLAGES,
+        TERRAINS,
+        coords
+    );
+    useMapRendering(
+        miniMapCtx,
+        miniMapConfig,
+        "MINI",
+        VILLAGES,
+        TERRAINS,
+        coords,
+        {
+            width: visibleAreaWidth,
+            height: visibleAreaHeight,
+        }
+    );
+    useMapRendering(popupMapCtx, popupMapConfig, "POPUP", VILLAGES, TERRAINS, {
         x: 0,
         y: 0,
     });

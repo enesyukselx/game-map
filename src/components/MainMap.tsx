@@ -5,7 +5,7 @@ import { MAIN_MAP_SIZE } from "../constants";
 import useWheel from "../hooks/useWheel";
 import useVillageHover from "../hooks/useVillageHover";
 import VillageDetailsPopup from "./VillageDetailsPopup";
-import DATA from "../constants/data";
+import { VILLAGES } from "../data/mapObjects";
 
 const MainMap = () => {
     const {
@@ -25,7 +25,7 @@ const MainMap = () => {
     const { hoveredVillage, hoverPosition } = useVillageHover(
         mainMapRef,
         isDragging,
-        DATA,
+        VILLAGES,
         coords,
         mainMapConfig
     );
