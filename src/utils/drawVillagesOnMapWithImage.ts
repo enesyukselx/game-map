@@ -1,4 +1,5 @@
 import villageImages from "../data/villageImages";
+import villageTypeColors from "../data/villageTypeColors";
 import { TVillage } from "../types";
 import { calculateScreenPosition } from "./calculateScreenPosition";
 import getVillageLevel from "./getVillageLevel";
@@ -56,6 +57,12 @@ export const drawVillagesOnMapWithImage = ({
             villageImage = villageImages[villageLevel][0];
         }
 
+        // Draw the village circle for the type
+        ctx.fillStyle = villageTypeColors[village.type];
+        ctx.beginPath();
+        ctx.arc(vx + 5, vy + 5, 0.04 * mapConfig.scale, 0, Math.PI * 2);
+        ctx.fill();
+        // Draw the village image
         ctx.drawImage(villageImage, vx, vy, vSize, vSize);
     });
 };
