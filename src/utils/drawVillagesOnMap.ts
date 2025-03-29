@@ -21,15 +21,18 @@ export const drawVillagesOnMap = ({
     villages.forEach((village) => {
         //
 
-        let {
-            x: vx,
-            y: vy,
+        const {
+            x,
+            y,
             size: vSize,
         } = calculateScreenPosition(
             { x: village.coords.x, y: village.coords.y },
             coords,
             mapConfig.scale
         );
+
+        let vx = x;
+        let vy = y;
 
         if (mapType === "MINI" && miniMapCenterCoords) {
             vx = vx + miniMapCenterCoords.x;
