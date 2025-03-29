@@ -1,5 +1,6 @@
 import React from "react";
 import { TVillage } from "../types";
+import calculateDistance from "../utils/calculateDistance";
 
 interface VillageDetailsPopupProps {
     village: TVillage;
@@ -26,6 +27,10 @@ const VillageDetailsPopup: React.FC<VillageDetailsPopupProps> = ({
             </p>
             <p>Type: {village.type}</p>
             <p>Points: {village.point}</p>
+            <p>
+                Distance to (0,0):{" "}
+                {calculateDistance({ x: 0, y: 0 }, village.coords).toFixed(2)}
+            </p>
         </div>
     );
 };
