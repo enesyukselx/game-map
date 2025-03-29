@@ -1,6 +1,6 @@
-import { VILLAGE_SIZE } from "../constants";
 import villageImages from "../data/villageImages";
 import { TVillage } from "../types";
+import { calculateScreenPosition } from "./calculateScreenPosition";
 import getVillageLevel from "./getVillageLevel";
 
 export const drawVillagesOnMapWithImage = ({
@@ -21,9 +21,15 @@ export const drawVillagesOnMapWithImage = ({
     //
     villages.forEach((village) => {
         //
-        let vx = (village.coords.x - coords.x) * mapConfig.scale;
-        let vy = (village.coords.y - coords.y) * mapConfig.scale;
-        const vSize = VILLAGE_SIZE * mapConfig.scale;
+        let {
+            x: vx,
+            y: vy,
+            size: vSize,
+        } = calculateScreenPosition(
+            { x: village.coords.x, y: village.coords.y },
+            coords,
+            mapConfig.scale
+        );
 
         if (mapType === "MINI" && miniMapCenterCoords) {
             vx = vx + miniMapCenterCoords.x;

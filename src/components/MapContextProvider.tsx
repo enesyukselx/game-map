@@ -35,7 +35,7 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const { mapConfig: popupMapConfig, mapCtx: popupMapCtx } = useCanvasSetup(
         popupMapRef,
-        { size: POPUP_MAP_SIZE, scale: 0.8 }
+        { size: POPUP_MAP_SIZE, scale: 3 }
     );
 
     // dragging event listeners with useDragging hook

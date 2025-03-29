@@ -1,5 +1,6 @@
-import { VILLAGE_SIZE } from "../constants";
+import villageTypeColors from "../data/villageTypeColors";
 import { TVillage } from "../types";
+import { calculateScreenPosition } from "./calculateScreenPosition";
 
 export const drawVillagesOnMap = ({
     ctx,
@@ -19,9 +20,16 @@ export const drawVillagesOnMap = ({
     //
     villages.forEach((village) => {
         //
-        let vx = (village.coords.x - coords.x) * mapConfig.scale;
-        let vy = (village.coords.y - coords.y) * mapConfig.scale;
-        const vSize = VILLAGE_SIZE * mapConfig.scale;
+
+        let {
+            x: vx,
+            y: vy,
+            size: vSize,
+        } = calculateScreenPosition(
+            { x: village.coords.x, y: village.coords.y },
+            coords,
+            mapConfig.scale
+        );
 
         if (mapType === "MINI" && miniMapCenterCoords) {
             vx = vx + miniMapCenterCoords.x;
@@ -37,12 +45,7 @@ export const drawVillagesOnMap = ({
             return;
         }
 
-        let villageColor = "darkred";
-        if (village.type === "ally") villageColor = "blue";
-        if (village.type === "enemy") villageColor = "red";
-        if (village.type === "barbar") villageColor = "gray";
-
-        ctx.fillStyle = villageColor;
+        ctx.fillStyle = villageTypeColors[village.type];
         ctx.fillRect(vx, vy, vSize, vSize);
     });
 };

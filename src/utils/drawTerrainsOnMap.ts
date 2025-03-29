@@ -1,6 +1,6 @@
-import { VILLAGE_SIZE } from "../constants";
 import terrainImages from "../data/terrainImages";
 import { TTerrain } from "../types";
+import { calculateScreenPosition } from "./calculateScreenPosition";
 
 export const drawTerrainsOnMap = ({
     ctx,
@@ -16,9 +16,15 @@ export const drawTerrainsOnMap = ({
     //
     terrains.forEach((terrain) => {
         //
-        const vx = (terrain.coords.x - coords.x) * mapConfig.scale;
-        const vy = (terrain.coords.y - coords.y) * mapConfig.scale;
-        const vSize = VILLAGE_SIZE * mapConfig.scale;
+        const {
+            x: vx,
+            y: vy,
+            size: vSize,
+        } = calculateScreenPosition(
+            { x: terrain.coords.x, y: terrain.coords.y },
+            coords,
+            mapConfig.scale
+        );
 
         if (
             vx < -vSize ||
