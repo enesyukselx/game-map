@@ -4,7 +4,9 @@ import { TCoords, TMapConfig, TMapType, TTerrain, TVillage } from "../types";
 import { clearMap } from "../utils/clearMap";
 import { drawCoordsOnMap } from "../utils/drawCoordsOnMap";
 import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import attachVillageImageLoadListeners from "../utils/attachVillageImageLoadListeners";
 import { drawVillagesOnMapWithImage } from "../utils/drawVillagesOnMapWithImage";
+import attachTerrainImageLoadListeners from "../utils/attachTerrainImageLoadListeners";
 import { drawTerrainsOnMap } from "../utils/drawTerrainsOnMap";
 
 const useMapRendering = (
@@ -33,6 +35,7 @@ const useMapRendering = (
 
         if (mapType === "MAIN") {
             // Draw villages on main map
+            attachVillageImageLoadListeners(ctx, villages, coords, mapConfig);
             drawVillagesOnMapWithImage({
                 ctx: ctx,
                 villages,
@@ -42,6 +45,7 @@ const useMapRendering = (
             });
 
             // Draw terrains on main map
+            attachTerrainImageLoadListeners(ctx, terrains, coords, mapConfig);
             drawTerrainsOnMap({
                 ctx: ctx,
                 terrains,
