@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { drawCoordsOnMap } from "../drawCoordsOnMap";
+import { VILLAGE_SIZE } from "../../constants";
 
 describe("drawCoordsOnMap", () => {
     it("should draw coordinates on the map when scale is >= 40", () => {
@@ -40,7 +41,7 @@ describe("drawCoordsOnMap", () => {
         expect(ctx.font).toBe("12px Arial");
         expect(ctx.textAlign).toBe("center");
 
-        // Check if fillRect was called with correct arguments
+        // Check if draw left and bottom borders were called
         expect(ctx.fillRect).toHaveBeenCalledWith(
             0,
             0,
@@ -54,24 +55,54 @@ describe("drawCoordsOnMap", () => {
             30
         );
 
+        const cordGap = VILLAGE_SIZE * mapConfig.scale;
+        const visibleAreaWidthInCords = mapConfig.size.width / cordGap;
+        const visibleAreaHeightInCords = mapConfig.size.height / cordGap;
+
+        // Check if the coordinates were drawn correctly
+        for (
+            let i = 0 - (coords.y % 1);
+            i <= visibleAreaHeightInCords + 1;
+            i++
+        ) {
+            expect(ctx.fillText).toHaveBeenCalledWith(
+                Math.round(coords.y + i - 1).toString(),
+                10,
+                cordGap * i - cordGap / 2
+            );
+        }
+        for (
+            let i = 0 - (coords.x % 1);
+            i <= visibleAreaWidthInCords + 1;
+            i++
+        ) {
+            expect(ctx.fillText).toHaveBeenCalledWith(
+                Math.round(coords.x + i - 1).toString(),
+                cordGap * i - cordGap / 2,
+                mapConfig.size.height - 5
+            );
+        }
+
         // Check if fillText was called at least once
         expect(ctx.fillText).toHaveBeenCalled();
+    });
 
-        // Verify that we don't draw coordinates if scale is less than 40
-        const smallScaleCtx = {
-            ...ctx,
+    it("should not draw coordinates on the map when scale is < 40", () => {
+        // Mock the canvas context
+        const ctx = {
             save: vi.fn(),
             restore: vi.fn(),
             fillRect: vi.fn(),
             fillText: vi.fn(),
-        };
-        const smallScaleConfig = { ...mapConfig, scale: 30 };
-        drawCoordsOnMap({
-            ctx: smallScaleCtx,
-            coords,
-            mapConfig: smallScaleConfig,
-        });
-        expect(smallScaleCtx.fillRect).not.toHaveBeenCalled();
-        expect(smallScaleCtx.fillText).not.toHaveBeenCalled();
+        } as unknown as CanvasRenderingContext2D;
+
+        const coords = { x: 5, y: 10 };
+        const mapConfig = { size: { width: 800, height: 600 }, scale: 30 };
+
+        drawCoordsOnMap({ ctx, coords, mapConfig });
+
+        expect(ctx.restore).toHaveBeenCalled();
+        expect(ctx.fillRect).not.toHaveBeenCalled();
+        expect(ctx.fillText).not.toHaveBeenCalled();
     });
 });
