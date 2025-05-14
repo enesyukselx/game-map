@@ -5,7 +5,14 @@ import useCanvasSetup from "../hooks/useCanvasSetup";
 import useMapRendering from "../hooks/useMapRendering";
 import { useDragging } from "../hooks/useDragging";
 import { useTouch } from "../hooks/useTouch";
-import { MAIN_MAP_SIZE, MINI_MAP_SIZE, POPUP_MAP_SIZE } from "../constants";
+import {
+    MAIN_MAP_SCALE,
+    MAIN_MAP_SIZE,
+    MINI_MAP_SCALE,
+    MINI_MAP_SIZE,
+    POPUP_MAP_SCALE,
+    POPUP_MAP_SIZE,
+} from "../constants";
 import { TERRAINS, VILLAGES } from "../data/mapObjects";
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -24,18 +31,24 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
         mapConfig: mainMapConfig,
         mapCtx: mainMapCtx,
         setMapConfig: setMainMapConfig,
-    } = useCanvasSetup(mainMapRef, { size: MAIN_MAP_SIZE, scale: 100 });
+    } = useCanvasSetup(mainMapRef, {
+        size: MAIN_MAP_SIZE,
+        scale: MAIN_MAP_SCALE,
+    });
 
     const {
         map: miniMap,
         mapConfig: miniMapConfig,
         mapCtx: miniMapCtx,
         setMapConfig: setMiniMapConfig,
-    } = useCanvasSetup(miniMapRef, { size: MINI_MAP_SIZE, scale: 5 });
+    } = useCanvasSetup(miniMapRef, {
+        size: MINI_MAP_SIZE,
+        scale: MINI_MAP_SCALE,
+    });
 
     const { mapConfig: popupMapConfig, mapCtx: popupMapCtx } = useCanvasSetup(
         popupMapRef,
-        { size: POPUP_MAP_SIZE, scale: 3 }
+        { size: POPUP_MAP_SIZE, scale: POPUP_MAP_SCALE }
     );
 
     // dragging event listeners with useDragging hook
