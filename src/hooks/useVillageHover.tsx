@@ -7,7 +7,7 @@ interface IUseVillageHoverResult {
     hoverPosition: { x: number; y: number } | null;
 }
 
-export const useVillageHover = (
+const useVillageHover = (
     canvasRef: React.RefObject<HTMLCanvasElement | null>,
     isDragging: boolean,
     villages: TVillage[],

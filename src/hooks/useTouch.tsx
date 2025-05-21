@@ -16,11 +16,11 @@ interface IUseTouchResult {
     };
 }
 
-export function useTouch({
+const useTouch = ({
     setCoords,
     mainMapConfig,
     miniMapConfig,
-}: IUseTouchProps): IUseTouchResult {
+}: IUseTouchProps): IUseTouchResult => {
     const [isTouching, setIsTouching] = useState(false);
     const [touchStartCoords, setTouchStartCoords] = useState<{
         x: number;
@@ -117,4 +117,6 @@ export function useTouch({
     return {
         eventListeners,
     };
-}
+};
+
+export default useTouch;

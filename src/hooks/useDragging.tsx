@@ -17,11 +17,11 @@ interface IUseDraggingResult {
     };
 }
 
-export function useDragging({
+const useDragging = ({
     setCoords,
     mainMapConfig,
     miniMapConfig,
-}: IUseDraggingProps): IUseDraggingResult {
+}: IUseDraggingProps): IUseDraggingResult => {
     const [isDragging, setIsDragging] = useState(false);
     const [mouseDownCoords, setMouseDownCoords] = useState<{
         x: number;
@@ -84,4 +84,6 @@ export function useDragging({
         isDragging,
         eventListeners,
     };
-}
+};
+
+export default useDragging;

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { MAP_BACKGROUND_COLOR } from "../constants";
 import { TCoords, TMapConfig, TMapType, TTerrain, TVillage } from "../types";
-import { clearMap } from "../utils/clearMap";
-import { drawCoordsOnMap } from "../utils/drawCoordsOnMap";
-import { drawVillagesOnMap } from "../utils/drawVillagesOnMap";
+import clearMap from "../utils/clearMap";
+import drawCoordsOnMap from "../utils/drawCoordsOnMap";
+import drawVillagesOnMap from "../utils/drawVillagesOnMap";
 import attachVillageImageLoadListeners from "../utils/attachVillageImageLoadListeners";
-import { drawVillagesOnMapWithImage } from "../utils/drawVillagesOnMapWithImage";
+import drawVillagesOnMapWithImage from "../utils/drawVillagesOnMapWithImage";
 import attachTerrainImageLoadListeners from "../utils/attachTerrainImageLoadListeners";
-import { drawTerrainsOnMap } from "../utils/drawTerrainsOnMap";
+import drawTerrainsOnMap from "../utils/drawTerrainsOnMap";
 
 const useMapRendering = (
     ctx: CanvasRenderingContext2D | null,

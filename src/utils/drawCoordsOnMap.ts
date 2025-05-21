@@ -1,6 +1,6 @@
 import { VILLAGE_SIZE } from "../constants";
 
-export const drawCoordsOnMap = ({
+const drawCoordsOnMap = ({
     ctx,
     coords,
     mapConfig,
@@ -59,3 +59,5 @@ export const drawCoordsOnMap = ({
     // Restore the canvas state
     ctx.restore();
 };
+
+export default drawCoordsOnMap;

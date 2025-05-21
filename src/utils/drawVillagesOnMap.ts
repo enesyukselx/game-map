@@ -1,8 +1,8 @@
 import villageTypeColors from "../data/villageTypeColors";
 import { TVillage } from "../types";
-import { calculateScreenPosition } from "./calculateScreenPosition";
+import calculateScreenPosition from "./calculateScreenPosition";
 
-export const drawVillagesOnMap = ({
+const drawVillagesOnMap = ({
     ctx,
     villages,
     coords,
@@ -52,3 +52,5 @@ export const drawVillagesOnMap = ({
         ctx.fillRect(vx, vy, vSize, vSize);
     });
 };
+
+export default drawVillagesOnMap;

@@ -1,10 +1,10 @@
 import villageImages from "../data/villageImages";
 import villageTypeColors from "../data/villageTypeColors";
 import { TVillage } from "../types";
-import { calculateScreenPosition } from "./calculateScreenPosition";
+import calculateScreenPosition from "./calculateScreenPosition";
 import getVillageLevel from "./getVillageLevel";
 
-export const drawVillagesOnMapWithImage = ({
+const drawVillagesOnMapWithImage = ({
     ctx,
     villages,
     coords,
@@ -67,3 +67,5 @@ export const drawVillagesOnMapWithImage = ({
         ctx.fill();
     });
 };
+
+export default drawVillagesOnMapWithImage;

@@ -1,4 +1,4 @@
-export const clearMap = ({
+const clearMap = ({
     ctx,
     width,
     height,
@@ -13,3 +13,5 @@ export const clearMap = ({
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, width, height);
 };
+
+export default clearMap;

@@ -3,8 +3,8 @@ import MapContext, { IMapContext } from "../context/MapContext";
 import { TCoords } from "../types";
 import useCanvasSetup from "../hooks/useCanvasSetup";
 import useMapRendering from "../hooks/useMapRendering";
-import { useDragging } from "../hooks/useDragging";
-import { useTouch } from "../hooks/useTouch";
+import useDragging from "../hooks/useDragging";
+import useTouch from "../hooks/useTouch";
 import {
     MAIN_MAP_SCALE,
     MAIN_MAP_SIZE,

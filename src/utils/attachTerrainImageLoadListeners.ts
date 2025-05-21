@@ -1,6 +1,6 @@
 import terrainImages from "../data/terrainImages";
 import { TTerrain } from "../types";
-import { drawTerrainsOnMap } from "./drawTerrainsOnMap";
+import drawTerrainsOnMap from "./drawTerrainsOnMap";
 
 let needsRedraw = false;
 

@@ -1,6 +1,6 @@
 import villageImages from "../data/villageImages";
 import { TVillage } from "../types";
-import { drawVillagesOnMapWithImage } from "./drawVillagesOnMapWithImage";
+import drawVillagesOnMapWithImage from "./drawVillagesOnMapWithImage";
 
 let needsRedraw = false;
 

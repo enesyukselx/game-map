@@ -1,6 +1,6 @@
 import { VILLAGE_SIZE } from "../constants";
 
-export const calculateScreenPosition = (
+const calculateScreenPosition = (
     objectCoords: { x: number; y: number },
     viewportCoords: { x: number; y: number },
     scale: number
@@ -11,3 +11,5 @@ export const calculateScreenPosition = (
         size: VILLAGE_SIZE * scale,
     };
 };
+
+export default calculateScreenPosition;

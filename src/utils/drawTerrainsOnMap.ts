@@ -1,8 +1,8 @@
 import terrainImages from "../data/terrainImages";
 import { TTerrain } from "../types";
-import { calculateScreenPosition } from "./calculateScreenPosition";
+import calculateScreenPosition from "./calculateScreenPosition";
 
-export const drawTerrainsOnMap = ({
+const drawTerrainsOnMap = ({
     ctx,
     terrains,
     coords,
@@ -40,3 +40,5 @@ export const drawTerrainsOnMap = ({
         ctx.drawImage(terrainImage, vx, vy, vSize, vSize);
     });
 };
+
+export default drawTerrainsOnMap;
